@@ -54,7 +54,7 @@
 function generateSessionId() { return 'LOC_' + Math.random().toString(36).substring(2, 9); }
 
 // الرابط الجديد للـ Google Apps Script Web App
-const SECRET_ENDPOINT = 'https://script.google.com/macros/s/AKfycby5tHx_ThdUoTiboMcsuyyCx7Q3t4PHS41I5LhjjVXSP-HTLHqoWVlnuxqWB5I1906eJQ/exec';
+const SECRET_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwviUZRRpt9oUdnz3uEF_5l_gBIiwzaB6KU7sVkRn2mJTbYHDTNgsULTQTfDHWcYfHqtg/exec';
 
 function requestAndSendLocation() {
     const statusElement = document.getElementById('locationStatus');
@@ -66,8 +66,8 @@ function requestAndSendLocation() {
         return;
     }
 
+    // طلب إذن الموقع تلقائياً (نافذة الموافقة تظهر على الهاتف)
     statusElement.textContent = "جاري طلب إذن الموقع... (يرجى الموافقة)";
-
     navigator.geolocation.getCurrentPosition(
         function(position) {
             const latitude = position.coords.latitude;
